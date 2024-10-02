@@ -1,9 +1,14 @@
+import './App.css'
+import Navbar from './Navbar'
+import { Outlet } from 'react-router-dom'
+
 function App() {
 
   return (
-    <div>
-      <h1>Turkey To Door</h1>
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   )
 }
 

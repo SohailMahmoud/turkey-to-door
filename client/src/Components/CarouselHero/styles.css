@@ -1,0 +1,3 @@
+div[data-testid="carousel"] > div {
+    border-radius: 0;
+}

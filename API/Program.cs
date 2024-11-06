@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(options => {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -39,5 +40,10 @@ catch (Exception ex)
 {
     logger.LogError(ex, "A problem occurred during migration");
 }
+
+
+app.UseCors((options => {
+    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+}));
 
 app.Run();

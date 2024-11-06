@@ -1,4 +1,5 @@
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +17,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Basket>> GetBasket()
+        public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await FindBasket();
 
             if (basket == null) return NotFound();
 
-            return basket;
+            return MapBasketToDto(basket);
         }
 
         [HttpPost] // api/basket?productId=3&quantity=2
@@ -46,6 +47,24 @@ namespace API.Controllers
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket" });
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> RemoveBasketItem(int productId, int quantity)
+        {
+            var basket = await FindBasket();
+            if (basket == null) return NotFound();
+
+            var itemToBeRemoved = basket.Items.FirstOrDefault(item => item.ProductId == productId);
+            if(itemToBeRemoved == null) return BadRequest();
+
+            itemToBeRemoved.Quantity -= quantity;
+            if(itemToBeRemoved.Quantity == 0) basket.Items.Remove(itemToBeRemoved);
+
+            var checkIfSaved = await _context.SaveChangesAsync() > 0;
+            if(checkIfSaved) return Ok();
+
+            return BadRequest(new ProblemDetails{Title = "Problem removing an item from the basket"});
+        }
+
         private async Task<Basket> FindBasket()
         {
             return await _context.Baskets
@@ -63,6 +82,25 @@ namespace API.Controllers
             var basket = new Basket { BuyerId = buyerId };
             _context.Baskets.Add(basket);
             return basket;
+        }
+
+        private BasketDto MapBasketToDto(Basket basket)
+        {
+            return new BasketDto
+            {
+                Id = basket.Id,
+                BuyerId = basket.BuyerId,
+                Items = basket.Items.Select(item => new BasketItemDto
+                {
+                    ProductId = item.ProductId,
+                    Name = item.Product.Name,
+                    Price = item.Product.Price,
+                    PictureUrl = item.Product.PictureUrl,
+                    Type = item.Product.Type,
+                    Brand = item.Product.Brand,
+                    Quantity = item.Quantity
+                }).ToList()
+            };
         }
     }
 }

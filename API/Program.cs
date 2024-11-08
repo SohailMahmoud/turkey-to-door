@@ -43,7 +43,7 @@ catch (Exception ex)
 
 
 app.UseCors((options => {
-    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 }));
 
 app.Run();

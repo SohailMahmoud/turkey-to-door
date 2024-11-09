@@ -16,7 +16,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await FindBasket();
@@ -26,7 +26,7 @@ namespace API.Controllers
             return MapBasketToDto(basket);
         }
 
-        [HttpPost] // api/basket?productId=3&quantity=2
+        [HttpPost]
         public async Task<ActionResult> AddItemToBasket(int productId, int quantity)
         {
             // Check if there is a basket for a given buyerId
@@ -42,7 +42,7 @@ namespace API.Controllers
             
             var checkIfSaved = await _context.SaveChangesAsync() > 0;
             
-            if(checkIfSaved) return StatusCode(201);
+            if(checkIfSaved) return CreatedAtRoute("GetBasket", MapBasketToDto(basket));
             
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket" });
         }

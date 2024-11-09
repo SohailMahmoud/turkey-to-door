@@ -16,6 +16,7 @@ import {
     TabPanels,
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import BasketPage from './Components/BasketPage/BasketPage'
 
 const navigation = {
     categories: [
@@ -197,6 +198,11 @@ const navigation = {
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
+    const [cartOpen, setCartOpen] = useState(false)
+
+    function handleOnCartClick() {
+        setCartOpen(prev => !prev)
+    }
 
     return (
         <div className="bg-white">
@@ -465,14 +471,15 @@ export default function Navbar() {
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <a href="#" className="group -m-2 flex items-center p-2">
+                                    <button onClick={handleOnCartClick} className="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon
                                             aria-hidden="true"
                                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                         />
                                         <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                                         <span className="sr-only">items in cart, view bag</span>
-                                    </a>
+                                    </button>
+                                    <BasketPage cartOpen={cartOpen} setCartOpen={setCartOpen} />
                                 </div>
                             </div>
                         </div>

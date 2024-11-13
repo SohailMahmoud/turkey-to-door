@@ -17,6 +17,7 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import BasketPage from './Components/BasketPage/BasketPage'
+import { useStoreContext } from './context/context'
 
 const navigation = {
     categories: [
@@ -199,6 +200,7 @@ const navigation = {
 export default function Navbar() {
     const [open, setOpen] = useState(false)
     const [cartOpen, setCartOpen] = useState(false)
+    const {basket} = useStoreContext();
 
     function handleOnCartClick() {
         setCartOpen(prev => !prev)
@@ -476,7 +478,7 @@ export default function Navbar() {
                                             aria-hidden="true"
                                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                         />
-                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{basket?.items.length}</span>
                                         <span className="sr-only">items in cart, view bag</span>
                                     </button>
                                     <BasketPage cartOpen={cartOpen} setCartOpen={setCartOpen} />

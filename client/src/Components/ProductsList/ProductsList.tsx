@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import agent from "../../app/agent";
 import { Product } from '../../models/product';
+import { useStoreContext } from "../../context/context";
 
 
 
@@ -10,10 +11,12 @@ export default function ProductList() {
 
     const [products, setProducts] = useState<Product[]>([]);
 
+    const { setBasket } = useStoreContext();
+
     useEffect(() => {
         agent.Catalog.list()
             .then((list) => {
-                console.log(list)
+                // console.log(list)
                 setProducts(list)
             })
             .catch((err) => console.log(err));
@@ -26,6 +29,7 @@ export default function ProductList() {
 
         try {
             const result = await agent.Basket.addItem(productId);
+            setBasket(result);
             console.log(result);
 
             setLoadingStates((prev) => ({ ...prev, [productId]: false }));

@@ -2,9 +2,8 @@
 
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useEffect, useState } from 'react';
+import { useStoreContext } from '../../context/context';
 import agent from '../../app/agent';
-import { Basket } from '../../models/basket';
 
 interface BasketPageProps {
     cartOpen: boolean;
@@ -13,15 +12,31 @@ interface BasketPageProps {
 
 export default function BasketPage({ cartOpen, setCartOpen }: BasketPageProps) {
 
-    const [basket, setBasket] = useState<Basket | null>(null);
+    const context = useStoreContext();
+    // console.log(context.basket?.items.length);
 
-    useEffect(() => {
-        agent.Basket.get()
-            .then((basket) => setBasket(basket))
-            .catch((err) => console.log(err))
-    }, [])
+    // Handle remove item from the basket in the client-side
+    // Then, update the basket in the shared context
+    function removeItem(productId: number, quantity: number) {
+        if (!context.basket) return;
+        const items = [...context.basket.items];
+        const itemIndex = items.findIndex(i => i.productId === productId);
+        if (itemIndex >= 0) {
+            items[itemIndex].quantity -= quantity;
+            if (items[itemIndex].quantity === 0) items.splice(itemIndex, 1);
+            context.setBasket(prevState => {
+                return {...prevState!, items}
+            })
+        }
+    }
 
-    console.log(basket?.items)
+    // Call the removeItem API endpoint
+    // Then, call removeItem func to handle client-side basket status
+    function handleRemove(productid: number, quantity = 1) {
+        agent.Basket.removeItem(productid, quantity)
+            .then(() => removeItem(productid, quantity))
+            .catch(error => console.log(error))
+    }
 
     return (
         <Dialog open={cartOpen} onClose={setCartOpen} className="relative z-10">
@@ -57,7 +72,7 @@ export default function BasketPage({ cartOpen, setCartOpen }: BasketPageProps) {
                                     <div className="mt-8">
                                         <div className="flow-root">
                                             <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                {basket?.items.map((item) => (
+                                                {context.basket?.items.map((item) => (
                                                     <li key={item.productId} className="flex py-6">
                                                         <div className="h-24 w-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                             <img
@@ -73,14 +88,14 @@ export default function BasketPage({ cartOpen, setCartOpen }: BasketPageProps) {
                                                                     <h3>
                                                                         <a href="#">{item.name}</a>
                                                                     </h3>
-                                                                    <p className="ml-4">IQD {item.price.toLocaleString()}</p>
+                                                                    <p className="ml-4">IQD {(item.price * item.quantity).toLocaleString()}</p>
                                                                 </div>
-                                                                {/* <p className="mt-1 text-sm text-gray-500">{item.color}</p> */}
+                                                                <p className="mt-1 text-sm text-gray-500">{item.quantity} KG</p>
                                                             </div>
                                                             <div className="flex flex-1 items-end justify-between text-sm">
-                                                                <p className="text-gray-500">Stock {item.quantity}</p>
+                                                                {/* <p className="text-gray-500">Amount: {item.quantity} KG</p> */}
                                                                 <div className="flex">
-                                                                    <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                    <button onClick={() => handleRemove(item.productId)} type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
                                                                         Remove
                                                                     </button>
                                                                 </div>
@@ -96,9 +111,17 @@ export default function BasketPage({ cartOpen, setCartOpen }: BasketPageProps) {
                                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                         <p>Subtotal</p>
-                                        <p>IQD {basket?.items.reduce((total, item) => item.price + total, 0)}</p>
+                                        <p>IQD {context.basket?.items.reduce((total, item) => (item.price * item.quantity) + total, 0).toLocaleString()}</p>
                                     </div>
                                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                                    <div className="mt-6">
+                                        <a
+                                            href="/basket-summery"
+                                            className="flex items-center justify-center rounded-md border border-transparent bg-gray-400 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-500"
+                                        >
+                                            Go to bag
+                                        </a>
+                                    </div>
                                     <div className="mt-6">
                                         <a
                                             href="#"
@@ -129,3 +152,4 @@ export default function BasketPage({ cartOpen, setCartOpen }: BasketPageProps) {
         </Dialog>
     )
 }
+

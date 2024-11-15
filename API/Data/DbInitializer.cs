@@ -7,17 +7,17 @@ namespace API.Data
     {
         public static void Initialize(StoreContext context)
         {
-            // if(context.Products.Any()) return;
+            if(context.Products.Any()) return;
 
             // Remove all existing products
-            if (context.Products.Any())
-            {
-                context.Products.RemoveRange(context.Products);
-                Console.WriteLine("Data cleared");
-            }
+            // if (context.Products.Any())
+            // {
+            //     context.Products.RemoveRange(context.Products);
+            //     Console.WriteLine("Data cleared");
+            // }
 
             // Reset the identity column (auto-increment) for SQLite
-            context.Database.ExecuteSqlRaw("DELETE FROM sqlite_sequence WHERE name='Products'");
+            // context.Database.ExecuteSqlRaw("DELETE FROM sqlite_sequence WHERE name='Products'");
 
             var products = new List<Product> 
             {

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import agent from './app/agent.ts'
 import { Basket } from './models/basket.ts'
 import { getCookie } from './util/util.ts'
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [basket, setBasket] = useState<Basket>();
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <StoreContext.Provider value={{basket, setBasket}}>
+      <ToastContainer />
       <Navbar />
       <Outlet />
     </StoreContext.Provider>

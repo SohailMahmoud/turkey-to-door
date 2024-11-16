@@ -1,3 +1,4 @@
+import { useState } from "react";
 import agent from "../../app/agent";
 import { useStoreContext } from "../../context/context";
 import { BasketItem } from "../../models/basket";
@@ -10,9 +11,14 @@ interface TableRowProps {
 
 export default function TableRow({item}: TableRowProps) {
 
+    const [loading, setLoading] = useState(false);
+
     const context = useStoreContext();
 
     async function handleAddToBag(productId: number) {
+        // Disable the buttons
+        setLoading(true);
+
         const loadingToast = toast.loading("Adding to bag...");
         try {
             const result = await agent.Basket.addItem(productId);
@@ -33,9 +39,9 @@ export default function TableRow({item}: TableRowProps) {
                 isLoading: false,
                 autoClose: 3000,
             });
-
             console.error("Error adding item to the basket", error);
         }
+        setLoading(false);
     }
 
     // Handle remove item from the basket in the client-side
@@ -56,7 +62,11 @@ export default function TableRow({item}: TableRowProps) {
     // Call the removeItem API endpoint
     // Then, call removeItem func to handle client-side basket status
     function handleRemove(productid: number, quantity = 1) {
+        // Disable the buttons
+        setLoading(true);
+
         const loadingToast = toast.loading("Removing from bag...");
+
         agent.Basket.removeItem(productid, quantity)
             .then(() => {
                 removeItem(productid, quantity)
@@ -76,6 +86,9 @@ export default function TableRow({item}: TableRowProps) {
                 });
                 console.log(error)
             })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     return (
@@ -88,18 +101,18 @@ export default function TableRow({item}: TableRowProps) {
             </td>
             <td className="px-6 py-4">
                 <div className="flex items-center justify-center">
-                    <button disabled={item.quantity === 1} onClick={() => handleRemove(item.productId)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                    <button disabled={item.quantity === 1 || loading} onClick={() => handleRemove(item.productId)} className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
                         <span className="sr-only">Quantity button</span>
                         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
                         </svg>
                     </button>
                     <div>
-                        <p id={item.productId.toString()} className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 text-center dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <p className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 text-center dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {item.quantity}
                         </p>
                     </div>
-                    <button onClick={() => handleAddToBag(item.productId)} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                    <button disabled={loading} onClick={() => handleAddToBag(item.productId)} className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
                         <span className="sr-only">Quantity button</span>
                         <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>

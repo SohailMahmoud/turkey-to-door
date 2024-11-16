@@ -1,0 +1,17 @@
+@media screen and (max-width: 1290px) {
+    .order-summery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-summery .order-summery-table,
+    .order-summery .order-summery-aside {
+        width: 80%;
+    }
+    
+    .order-summery .order-summery-aside {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding: unset;
+    }
+}

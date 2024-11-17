@@ -48,7 +48,7 @@ namespace API.Data
                     Price = 80000,
                     PictureUrl = "/hasir-kadayif.jpg",
                     Brand = "Turkey To Door",
-                    Type = "Kunefe",
+                    Type = "Kadayif",
                     QuantityInStock = 100
                 },
                 new Product
@@ -64,15 +64,377 @@ namespace API.Data
                 },
                 new Product
                 {
-                    Name = "Karadut Fıstıklı Halep Türk Lokumu",
+                    Name = "Limon Aromalı Türk Lokumu",
                     Description =
-                        "حلقوم اصابع بالتوت و الفسدق",
-                    Price = 25000,
+                        "حلقوم سادة بنكهة الليمون متغطي بسكر بودرة",
+                    Price = 30000,
                     PictureUrl = "/images/products/sb-react1.png",
                     Brand = "Turkey To Door",
                     Type = "Lokum",
                     QuantityInStock = 100
                 },
+                new Product
+                {
+                    Name = "Nar Aromalı Türk Lokumu",
+                    Description =
+                        "حلقوم بالرمان سادة و متغطي بسكر بودرة",
+                    Price = 30000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Kivi Aromalı Türk Lokumu",
+                    Description ="",
+                    Price = 30000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Damla Sakızlı Aromalı Türk Lokumu",
+                    Description ="",
+                    Price = 30000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Pirinç Fıstıklı Sultan Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 62000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Kadayıf Fıstıklı Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 47000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Pirinç Narlı Fıstıklı Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 64000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Gülyaprak Narlı Fıstıklı Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 52000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Pudralı Sultan Fıstıklı Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 48000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Pudralı Fıstıklı Duble Parmak Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Sultan Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Duble Türk Lokumu",
+                    Description ="",
+                    Price = 38000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Fındıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 40000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Pudralı Narlı Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Kadayıflı Narlı Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Narlı Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 45000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Vali Fıstıklı Türk Lokumu",
+                    Description ="",
+                    Price = 47000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Sultan Fındık Türk Lokumu",
+                    Description ="",
+                    Price = 36000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Zeliş Narlı Duble Fıstıklı Türk Lokumu",
+                    Description ="",
+                    Price = 50000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Kadayıflı Fıstıklı Duble Türk Lokumu",
+                    Description ="",
+                    Price = 55000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fındıklı Türk Lokumu",
+                    Description ="",
+                    Price = 50000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Sultan Fıstıklı Türk Lokumu",
+                    Description ="",
+                    Price = 55000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "File Fıstıklı Sultan Narlı Halep Türk Lokumu",
+                    Description ="",
+                    Price = 60000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Kadayıf Çikolatalı Fıstıklı Türk Lokumu",
+                    Description ="",
+                    Price = 55000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Karadut Fıstıklı Halep Türk Lokumu",
+                    Description ="",
+                    Price = 60000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Hindistan Cevizli Sultan Narlı Fıstıklı Halep Türk Lokumu",
+                    Description ="",
+                    Price = 57000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Lokum",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Cevizli Saray Sarma",
+                    Description ="",
+                    Price = 70000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Cevizli Ev Baklavası",
+                    Description ="",
+                    Price = 69000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fıstıklı Baklavası",
+                    Description ="",
+                    Price = 77000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fıstıklı Şobiyet",
+                    Description ="",
+                    Price = 70000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fıstıklı Midye",
+                    Description ="",
+                    Price = 66000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fıstıklı Kadayıf",
+                    Description ="",
+                    Price = 80000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Kadayif",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Cevizli Kadayıf",
+                    Description ="",
+                    Price = 66000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Kadayif",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Fındıkzade",
+                    Description ="",
+                    Price = 79000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Kadayif",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Cevizli Bülbül Yuvası",
+                    Description ="",
+                    Price = 80000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                new Product
+                {
+                    Name = "Havuç Dilim Baklava",
+                    Description ="",
+                    Price = 66000,
+                    PictureUrl = "/images/products/sb-react1.png",
+                    Brand = "Turkey To Door",
+                    Type = "Baklava",
+                    QuantityInStock = 100
+                },
+                
             };
             
             foreach (var product in products)

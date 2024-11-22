@@ -14,6 +14,10 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
 import ProductsGrid from '../ProductsGrid/ProductsGrid'
 import agent from '../../app/agent'
+import Pagination from '../Pagination/Pagination'
+import { MetaData } from '../../models/pagination'
+import LoadingCard from '../LoadingCard/LoadingCard'
+
 
 const sortOptions = [
     { name: 'By Name', href: '#', current: true },
@@ -21,6 +25,7 @@ const sortOptions = [
     { name: 'Price: High to Low', href: '#', current: false },
 ]
 const subCategories = [
+    { name: 'All', href: '#' },
     { name: 'Baklava', href: '#' },
     { name: 'Lokum', href: '#' },
     { name: 'Kadayif', href: '#' },
@@ -31,21 +36,25 @@ function classNames(...classes: (string | undefined | null)[]): string {
 }
 
 export default function Example() {
+    const [loading, setLoading] = useState(false);
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [products, setProducts] = useState([]);
+    const [metaData, setMetaData] = useState<MetaData | null>(null);
     const [filters, setFilters] = useState({
         searchTerm: '',
         orderBy: '',
         types: '',
         brands: '',
         pageNumber: 1,
-        pageSize: 12
+        pageSize: 8,
     });
 
-    const fetchProducts = async () => {
-        const params = new URLSearchParams();
+    const sleep = () => new Promise(resolve => setTimeout(resolve, 800))
 
-        // Add filters dynamically
+    const fetchProducts = async () => {
+        setLoading(true);
+        await sleep();
+        const params = new URLSearchParams();
         if (filters.searchTerm) params.append('searchTerm', filters.searchTerm);
         if (filters.orderBy) params.append('orderBy', filters.orderBy);
         if (filters.types) params.append('types', filters.types);
@@ -55,12 +64,12 @@ export default function Example() {
 
         try {
             const response = await agent.Catalog.list(params);
-            setProducts(response);
-            console.log(response);
-            
+            setProducts(response.items);
+            setMetaData(response.metaData);
         } catch (error) {
             console.error('Error fetching products:', error);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -68,10 +77,22 @@ export default function Example() {
     }, [filters]);
 
     const handleFilterChange = (key: string, value: string | number) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [key]: value
-        }));
+        if(value === "all") {
+            setFilters({
+                    searchTerm: '',
+                    orderBy: '',
+                    types: '',
+                    brands: '',
+                    pageNumber: 1,
+                    pageSize: 8,
+            })
+        } else {
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                pageNumber: 1,
+                [key]: value
+            }));
+        }
     };
 
     return (
@@ -141,15 +162,14 @@ export default function Example() {
                                     <div className="py-1">
                                         {sortOptions.map((option) => (
                                             <MenuItem key={option.name}>
-                                                <a
-                                                    href={option.href}
+                                                <button
                                                     className={classNames(
                                                         option.current ? 'font-medium text-gray-900' : 'text-gray-500',
                                                         'block px-4 py-2 text-sm data-[focus]:bg-gray-100 data-[focus]:outline-none',
                                                     )}
                                                 >
                                                     {option.name}
-                                                </a>
+                                                </button>
                                             </MenuItem>
                                         ))}
                                     </div>
@@ -186,11 +206,15 @@ export default function Example() {
                                     ))}
                                 </ul>
                             </form>
-
                             {/* Product grid */}
-                            <div className="lg:col-span-3">
-                                <ProductsGrid products={products} />
-                            </div>
+                            {
+                                loading ? 
+                                <LoadingCard /> :
+                                <div className="lg:col-span-3">
+                                    <ProductsGrid products={products} />
+                                    <Pagination metaData={metaData} handleFilterChange={handleFilterChange}/>
+                                </div>
+                            }
                         </div>
                     </section>
                 </main>

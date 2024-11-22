@@ -15,7 +15,7 @@ function App() {
     const buyerId = getCookie('buyerId');
     if (buyerId) {
       agent.Basket.get()
-        .then(basket => setBasket(basket))
+        .then(basket => setBasket(basket.data))
         .catch(error => console.log(error))
       }
   }, [setBasket])

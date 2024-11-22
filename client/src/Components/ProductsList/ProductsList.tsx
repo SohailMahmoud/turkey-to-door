@@ -14,10 +14,19 @@ export default function ProductList() {
     const { setBasket } = useStoreContext();
 
     useEffect(() => {
-        agent.Catalog.list()
+        const params = new URLSearchParams({
+            searchTerm: '',
+            orderBy: '',     
+            types: '',       
+            brands: '',     
+            pageNumber: String(1),  
+            pageSize: String(8),    
+        });
+
+        agent.Catalog.list(params)
             .then((list) => {
                 // console.log(list)
-                setProducts(list)
+                setProducts(list.items)
             })
             .catch((err) => console.log(err));
     }, [])

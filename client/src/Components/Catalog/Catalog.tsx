@@ -19,18 +19,6 @@ import { MetaData } from '../../models/pagination'
 import LoadingCard from '../LoadingCard/LoadingCard'
 
 
-const sortOptions = [
-    { name: 'By Name', href: '#', current: true },
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
-]
-const subCategories = [
-    { name: 'All', href: '#' },
-    { name: 'Baklava', href: '#' },
-    { name: 'Lokum', href: '#' },
-    { name: 'Kadayif', href: '#' },
-]
-
 function classNames(...classes: (string | undefined | null)[]): string {
     return classes.filter(Boolean).join(' ')
 }
@@ -40,6 +28,17 @@ export default function Example() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [products, setProducts] = useState([]);
     const [metaData, setMetaData] = useState<MetaData | null>(null);
+    const [sortOptions, setSortOptions] = useState([
+        { name: 'By Name', current: true },
+        { name: 'Price: Low to High', current: false },
+        { name: 'Price: High to Low', current: false },
+    ])
+    const [subCategories, setSubCategories] = useState([
+        { name: 'All', current: true },
+        { name: 'Baklava', current: false },
+        { name: 'Lokum', current: false },
+        { name: 'Kadayif', current: false },
+    ]);
     const [filters, setFilters] = useState({
         searchTerm: '',
         orderBy: '',
@@ -77,6 +76,17 @@ export default function Example() {
     }, [filters]);
 
     const handleFilterChange = (key: string, value: string | number) => {
+        if(typeof value === "string") {
+            const updatedArray = [... subCategories]
+            updatedArray.map((subCategorie => {
+                if(value === subCategorie.name.toLowerCase()) {
+                    subCategorie.current = true;
+                } else {
+                    subCategorie.current = false;
+                }
+            }))
+            setSubCategories(updatedArray);
+        }
         if(value === "all") {
             setFilters({
                     searchTerm: '',
@@ -93,6 +103,36 @@ export default function Example() {
                 [key]: value
             }));
         }
+    };
+
+    const handleSortOptionsChange = (eventTarget: HTMLButtonElement) => {
+        const selectedOption = eventTarget.innerText.toLocaleLowerCase();
+        if(selectedOption === 'by name') {
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                orderBy: ''
+            }));            
+        } else if(selectedOption === 'price: low to high') {
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                orderBy: 'price'
+            }));
+        } else if(selectedOption === 'price: high to low') {
+            setFilters(prevFilters => ({
+                ...prevFilters,
+                orderBy: 'priceDesc'
+            }));
+        }
+
+        const updatedArray = [...sortOptions];
+        updatedArray.map((sortOption) => {
+            if(sortOption.name.toLocaleLowerCase() === selectedOption) {
+                sortOption.current = true;
+            } else {
+                sortOption.current = false;
+            }
+        })
+        setSortOptions(updatedArray);
     };
 
     return (
@@ -127,10 +167,11 @@ export default function Example() {
                                 <h3 className="sr-only">Categories</h3>
                                 <ul role="list" className="px-2 py-3 font-medium text-gray-900">
                                     {subCategories.map((category) => (
-                                        <li key={category.name}>
+                                        <li className='flex' key={category.name}>
                                             <button type="button" onClick={(e) => handleFilterChange("types", (e.target as HTMLButtonElement).innerText.toLowerCase())} className="block px-2 py-3">
                                                 {category.name}
                                             </button>
+                                            {category.current ? <div className='rounded-full w-2 h-2 bg-violet-600'></div> : ''}
                                         </li>
                                     ))}
                                 </ul>
@@ -163,8 +204,9 @@ export default function Example() {
                                         {sortOptions.map((option) => (
                                             <MenuItem key={option.name}>
                                                 <button
+                                                    onClick={(e) => handleSortOptionsChange(e.target as HTMLButtonElement)}
                                                     className={classNames(
-                                                        option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                                        option.current ? 'w-full font-medium text-gray-900' : 'w-full text-gray-500',
                                                         'block px-4 py-2 text-sm data-[focus]:bg-gray-100 data-[focus]:outline-none',
                                                     )}
                                                 >
@@ -198,10 +240,11 @@ export default function Example() {
                                 <h3 className="sr-only">Categories</h3>
                                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                                     {subCategories.map((category) => (
-                                        <li key={category.name}>
+                                        <li className='flex justify-between items-center' key={category.name}>
                                             <button type="button" onClick={(e) => handleFilterChange("types", (e.target as HTMLButtonElement).innerText.toLowerCase())}>
                                                 {category.name}
                                             </button>
+                                            {category.current ? <div className='rounded-full w-2 h-2 bg-violet-600'></div> : ''}
                                         </li>
                                     ))}
                                 </ul>

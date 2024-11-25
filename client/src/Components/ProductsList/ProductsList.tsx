@@ -20,7 +20,7 @@ export default function ProductList() {
             types: '',       
             brands: '',     
             pageNumber: String(1),  
-            pageSize: String(8),    
+            pageSize: String(4),    
         });
 
         agent.Catalog.list(params)
@@ -39,8 +39,6 @@ export default function ProductList() {
         try {
             const result = await agent.Basket.addItem(productId);
             setBasket(result);
-            console.log(result);
-
             setLoadingStates((prev) => ({ ...prev, [productId]: false }));
         } catch (error) {
             console.error("Error adding item to the basket", error);
@@ -56,7 +54,7 @@ export default function ProductList() {
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    {products.slice(0, 4).map((product) => (
+                    {products.map((product) => (
                         <div key={product.id} className="group relative">
                             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                 <img

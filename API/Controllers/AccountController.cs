@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -55,17 +56,17 @@ namespace API.Controllers
             return StatusCode(201);
         }
 
-    [Authorize]
-    [HttpGet("currentUser")]
-    public async Task<ActionResult<UserDto>> GetCurrentUser()
-    {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-        return new UserDto
+        [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            Email = user.Email,
-            Token = await _tokenService.GenerateToken(user)
-        };
-    }
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+    
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user)
+            };
+        }
     }
 }

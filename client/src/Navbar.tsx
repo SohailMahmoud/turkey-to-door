@@ -5,6 +5,10 @@ import {
     Dialog,
     DialogBackdrop,
     DialogPanel,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
     Popover,
     PopoverButton,
     PopoverGroup,
@@ -15,9 +19,10 @@ import {
     TabPanel,
     TabPanels,
 } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import BasketPage from './Components/BasketPage/BasketPage'
-import { useStoreContext } from './context/context'
+import { useStoreContext, useUserContext } from './context/context'
+import { useNavigate } from "react-router-dom";
 
 const navigation = {
     categories: [
@@ -84,12 +89,22 @@ const navigation = {
 }
 
 export default function Navbar() {
+    const navigate = useNavigate();
+
+    const { user, setUser } = useUserContext();
+
     const [open, setOpen] = useState(false)
     const [cartOpen, setCartOpen] = useState(false)
-    const {basket} = useStoreContext();
+    const { basket } = useStoreContext();
 
     function handleOnCartClick() {
         setCartOpen(prev => !prev)
+    }
+
+    function handleSignout() {
+        setUser(undefined);
+        localStorage.removeItem('user');
+        navigate('/');
     }
 
     return (
@@ -185,31 +200,33 @@ export default function Navbar() {
                                 </div>
                             ))}
                         </div>
-
-                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                            <div className="flow-root">
-                                <a href="sign-in" className="-m-2 block p-2 font-medium text-gray-900">
-                                    Sign in
-                                </a>
+                        {!user ?
+                            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                                <div className="flow-root">
+                                    <a href="sign-in" className="-m-2 block p-2 font-medium text-gray-900">
+                                        Sign in
+                                    </a>
+                                </div>
+                                <div className="flow-root">
+                                    <a href="create-account" className="-m-2 block p-2 font-medium text-gray-900">
+                                        Create account
+                                    </a>
+                                </div>
                             </div>
-                            <div className="flow-root">
-                                <a href="create-account" className="-m-2 block p-2 font-medium text-gray-900">
-                                    Create account
-                                </a>
-                            </div>
-                        </div>
+                            : ''}
 
-                        <div className="border-t border-gray-200 px-4 py-6">
+
+                        {/* <div className="border-t border-gray-200 px-4 py-6">
                             <a href="#" className="-m-2 flex items-center p-2">
                                 <img
                                     alt="USA flag"
-                                    src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Iraq.svg/1280px-Flag_of_Iraq.svg.png?20221130134748"
                                     className="block h-auto w-5 flex-shrink-0"
                                 />
-                                <span className="ml-3 block text-base font-medium text-gray-900">USD</span>
+                                <span className="ml-3 block text-base font-medium text-gray-900">IQD</span>
                                 <span className="sr-only">, change currency</span>
                             </a>
-                        </div>
+                        </div> */}
                     </DialogPanel>
                 </div>
             </Dialog>
@@ -327,35 +344,25 @@ export default function Navbar() {
                             </PopoverGroup>
 
                             <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <a href="sign-in" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Sign in
-                                    </a>
-                                    <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                                    <a href="create-account" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Create account
-                                    </a>
-                                </div>
-
-                                <div className="hidden lg:ml-8 lg:flex">
-                                    <div className="flex items-baseline text-gray-700 hover:text-gray-800">
+                                {/* <div className="hidden lg:ml-8 lg:flex">
+                                    <div className="flex items-center text-gray-700 hover:text-gray-800">
                                         <img
                                             alt="USA flag"
-                                            src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Iraq.svg/1280px-Flag_of_Iraq.svg.png?20221130134748"
                                             className="block h-auto w-5 flex-shrink-0"
                                         />
-                                        <span className="ml-3 block text-sm font-medium">USD</span>
+                                        <span className="ml-3 block text-sm font-medium">IQD</span>
                                         <span className="sr-only">, change currency</span>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Search */}
-                                <div className="flex lg:ml-6">
+                                {/* <div className="flex lg:ml-6">
                                     <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
                                         <span className="sr-only">Search</span>
                                         <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
                                     </a>
-                                </div>
+                                </div> */}
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
@@ -369,6 +376,67 @@ export default function Navbar() {
                                     </button>
                                     <BasketPage cartOpen={cartOpen} setCartOpen={setCartOpen} />
                                 </div>
+                                {!user ?
+                                    <div className="hidden ml-4 lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                        <a href="sign-in" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                aria-hidden="true"
+                                                className="on"
+                                                style={{ width: '24px', height: '24px', color: 'rgb(156, 163, 175)' }}
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                                                />
+                                            </svg>
+
+                                        </a>
+                                    </div> : <Menu as="div" className="ml-4 relative lg:ml-6">
+                                        <div>
+                                            <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                                <span className="absolute -inset-1.5" />
+                                                <span className="sr-only">Open user menu</span>
+                                                <img
+                                                    alt=""
+                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                    className="size-8 rounded-full"
+                                                />
+                                            </MenuButton>
+                                        </div>
+                                        <MenuItems
+                                            transition
+                                            className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                        >
+                                            <MenuItem>
+                                                <button
+                                                    className="w-full block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                                >
+                                                    Your Profile
+                                                </button>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <button
+                                                    className="w-full block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                                >
+                                                    Settings
+                                                </button>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <button
+                                                    onClick={handleSignout}
+                                                    className="w-full block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                                                >
+                                                    Sign out
+                                                </button>
+                                            </MenuItem>
+                                        </MenuItems>
+                                    </Menu>}
                             </div>
                         </div>
                     </div>

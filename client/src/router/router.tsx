@@ -9,12 +9,16 @@ import CreateAccount from "../Components/CreateAccount/CreateAccount";
 import NotFound from "../Components/NotFound/NotFound";
 import BasketSummery from "../Components/BasketSummery/BasketSummery";
 import CheckoutPage from "../Components/CheckoutPage/CheckoutPage";
+import RequireAuth from "./RequireAuth";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         children: [
+            {element: <RequireAuth />, children: [
+                { path: '/checkout', element: <CheckoutPage /> }
+            ]},
             {path: '',element: <HomePage />},
             {path: 'catalog',element: <Catalog />},
             {path: 'about',element: <About />},
@@ -22,7 +26,6 @@ export const router = createBrowserRouter([
             {path: 'create-account',element: <CreateAccount />},
             {path: 'product/:productId',element: <SingleProduct />},
             {path: 'basket-summery',element: <BasketSummery />},
-            {path: 'checkout',element: <CheckoutPage />},
             {path: '*',element: <NotFound />},
         ]
     }

@@ -1,22 +1,31 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import agent from "../../app/agent";
 import { FieldError, FieldValues, useForm } from "react-hook-form";
-import { useUserContext } from "../../context/context";
+import { useStoreContext, useUserContext } from "../../context/context";
+import { LoginDto } from "../../models/loginDto";
 
 export default function SignIn() {
 
     const { setUser } = useUserContext();
+    const { setBasket } = useStoreContext();
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({
+    const { register, handleSubmit, formState: { isSubmitting, errors, isValid } } = useForm({
         mode: "onTouched"
     });
 
     async function submitForm(data: FieldValues) {
+        // Map FieldValues to LoginDto
+        const loginData: LoginDto = {
+            username: data.username,
+            password: data.password,
+        };
         try {
-            const user = await agent.Account.login(data);
+            const userDto = await agent.Account.login(loginData);
+            const { basket, ...user } = userDto;
+            setBasket(basket);
             localStorage.setItem("user", JSON.stringify(user));
             setUser(user);
             navigate(location.state?.from || '/catalog');
@@ -75,7 +84,7 @@ export default function SignIn() {
                             </div>
                             <div className="mt-2">
                                 <input
-                                    {...register("password" , {
+                                    {...register("password", {
                                         required: "Please write your password"
                                     })}
                                     type="password"
@@ -102,7 +111,7 @@ export default function SignIn() {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
-                        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                        <a href="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                             Create your account now
                         </a>
                     </p>

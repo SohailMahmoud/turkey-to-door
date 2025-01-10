@@ -92,6 +92,7 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     const { user, setUser } = useUserContext();
+    const { setBasket } = useStoreContext();
 
     const [open, setOpen] = useState(false)
     const [cartOpen, setCartOpen] = useState(false)
@@ -103,6 +104,7 @@ export default function Navbar() {
 
     function handleSignout() {
         setUser(undefined);
+        setBasket(undefined);
         localStorage.removeItem('user');
         navigate('/');
     }

@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import { Outlet } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import { StoreContext, UserContext } from './context/context.ts'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import agent from './app/agent.ts'
 import { Basket } from './models/basket.ts'
 import { getCookie } from './util/util.ts'
@@ -21,8 +21,10 @@ function App() {
 
   async function getCurrentUser() {
     try {
-      const currentUser = await agent.Account.currentUser();
-      setUser(currentUser);
+      const currentUserDto = await agent.Account.currentUser();
+      const {basket, ...user} = currentUserDto;
+      setBasket(basket);
+      setUser(user);
     } catch (error) {
       console.log(error);
       setUser(undefined)
@@ -32,7 +34,7 @@ function App() {
     }
   }
   
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (user) {
       getCurrentUser();
     }
@@ -42,7 +44,7 @@ function App() {
     const buyerId = getCookie('buyerId');
     if (buyerId) {
       agent.Basket.get()
-        .then(basket => setBasket(basket.data))
+        .then(basket => setBasket(basket))
         .catch(error => console.log(error))
       }
   }, [setBasket])

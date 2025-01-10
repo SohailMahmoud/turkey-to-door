@@ -36,9 +36,9 @@ export default function BasketSummery() {
             </div>
             <aside className="order-summery-aside w-1/5 pl-5">
                     <div>
-                        <button className="flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 mb-5 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                        <a href="/checkout" className="flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 mb-5 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
                             Checkout
-                        </button>
+                        </a>
                         <div className="border-solid border-2 border-black-600 px-2 py-4 rounded-md">
                             <p className="font-bold	px-3 mb-4">Order Summary</p>
                             <ul className="px-3 text-sm">
@@ -49,9 +49,9 @@ export default function BasketSummery() {
                                 <li className="flex justify-between pt-2"><span>Total</span><strong>IQD&nbsp;{context.basket?.items.reduce((total, item) => (item.price * item.quantity) + total, 0).toLocaleString()}</strong></li>
                             </ul>
                         </div>
-                        <button className="flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 mt-5 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                        <a href="/checkout" className="flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-600 px-6 py-3 mt-5 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
                             Checkout
-                        </button>
+                        </a>
                     </div>
             </aside>
         </div>

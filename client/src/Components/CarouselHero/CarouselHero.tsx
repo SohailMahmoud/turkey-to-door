@@ -1,6 +1,3 @@
-
-"use client";
-
 import { Carousel } from "flowbite-react";
 import './styles.css';
 

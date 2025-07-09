@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from 'react'
 import {
     Dialog,
@@ -23,7 +21,7 @@ function classNames(...classes: (string | undefined | null)[]): string {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Catalog() {
     const [loading, setLoading] = useState(false);
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [products, setProducts] = useState([]);
